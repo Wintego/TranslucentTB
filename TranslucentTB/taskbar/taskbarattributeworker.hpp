@@ -141,6 +141,7 @@ private:
 
 	// Color previews
 	std::array<std::optional<Util::Color>, 7> m_ColorPreviews;
+	std::optional<Util::Color> m_TextColorPreview;
 
 	// Hook DLL
 	LoadableDll m_HookDll;
@@ -186,6 +187,7 @@ private:
 	void ShowTaskbarLine(const TaskbarInfo &taskbar, bool show);
 	void SetAttribute(taskbar_iterator taskbar, TaskbarAppearance config);
 	void RefreshAttribute(taskbar_iterator taskbar);
+	Util::Color GetTextColor() const;
 	void RefreshAllAttributes();
 
 	// Log
@@ -276,6 +278,18 @@ public:
 	void ApplyColorPreview(txmp::TaskbarState state, Util::Color color)
 	{
 		m_ColorPreviews.at(static_cast<std::size_t>(state)) = color;
+		ConfigurationChanged();
+	}
+
+	void ApplyTextColorPreview(Util::Color color)
+	{
+		m_TextColorPreview = color;
+		ConfigurationChanged();
+	}
+
+	inline void RemoveTextColorPreview()
+	{
+		m_TextColorPreview.reset();
 		ConfigurationChanged();
 	}
 
